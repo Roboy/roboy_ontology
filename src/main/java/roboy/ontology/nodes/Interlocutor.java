@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import roboy.ontology.Neo4jMemoryInterface;
-import roboy.ontology.Neo4jRelationships;
+import roboy.ontology.Neo4jRelationship;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,11 +75,11 @@ public class Interlocutor extends MemoryNodeModel {
         return (String) getProperty("name");
     }
 
-    public boolean hasRelationship(Neo4jRelationships type) {
+    public boolean hasRelationship(Neo4jRelationship type) {
         return !(getRelationship(type.type) == null) && (!getRelationship(type.type).isEmpty());
     }
 
-    public ArrayList<Integer> getRelationships(Neo4jRelationships type) {
+    public ArrayList<Integer> getRelationships(Neo4jRelationship type) {
         return getRelationship(type.type);
     }
 
@@ -101,7 +101,7 @@ public class Interlocutor extends MemoryNodeModel {
         MemoryNodeModel relatedNode = new MemoryNodeModel(true, memory);
         relatedNode.setProperty("name", name);
         //This adds a label type to the memory query depending on the relation.
-        relatedNode.setLabel(Neo4jRelationships.determineNodeType(relationship));
+        relatedNode.setLabel(Neo4jRelationship.determineNodeType(relationship));
         try {
             ids = memory.getByQuery(relatedNode);
         } catch (InterruptedException | IOException e) {
@@ -143,11 +143,11 @@ public class Interlocutor extends MemoryNodeModel {
      * @param rels array of predicates to check
      * @return one of three: all, some or none available
      */
-    public RelationshipAvailability checkRelationshipAvailability(Neo4jRelationships[] rels) {
+    public RelationshipAvailability checkRelationshipAvailability(Neo4jRelationship[] rels) {
         boolean atLeastOneAvailable = false;
         boolean allAvailable = true;
 
-        for (Neo4jRelationships predicate : rels) {
+        for (Neo4jRelationship predicate : rels) {
             if (this.hasRelationship(predicate)) {
                 atLeastOneAvailable = true;
             } else {
@@ -159,12 +159,12 @@ public class Interlocutor extends MemoryNodeModel {
         return RelationshipAvailability.NONE_AVAILABLE;
     }
 
-    public HashMap<Boolean, ArrayList<Neo4jRelationships>> getPurityRelationships(Neo4jRelationships[] predicates) {
-        HashMap<Boolean, ArrayList<Neo4jRelationships>> pureImpureValues = new HashMap<>();
+    public HashMap<Boolean, ArrayList<Neo4jRelationship>> getPurityRelationships(Neo4jRelationship[] predicates) {
+        HashMap<Boolean, ArrayList<Neo4jRelationship>> pureImpureValues = new HashMap<>();
         pureImpureValues.put(false, new ArrayList<>());
         pureImpureValues.put(true, new ArrayList<>());
 
-        for (Neo4jRelationships predicate : predicates) {
+        for (Neo4jRelationship predicate : predicates) {
             pureImpureValues.get(this.hasRelationship(predicate)).add(predicate);
         }
 

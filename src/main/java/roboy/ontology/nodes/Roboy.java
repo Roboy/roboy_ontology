@@ -2,7 +2,7 @@ package roboy.ontology.nodes;
 
 import com.google.gson.Gson;
 import roboy.ontology.Neo4jMemoryInterface;
-import roboy.ontology.Neo4jRelationships;
+import roboy.ontology.Neo4jRelationship;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class Roboy extends MemoryNodeModel{
      * @return ArrayList<Integer> ids - list containing integer IDs of the nodes
      * related to the Roboy by specific relationship type as in the Memory
      */
-    public ArrayList<Integer> getRelationships(Neo4jRelationships type) {
+    public ArrayList<Integer> getRelationships(Neo4jRelationship type) {
         return getRelationship(type.type);
     }
 
@@ -84,7 +84,7 @@ public class Roboy extends MemoryNodeModel{
         MemoryNodeModel relatedNode = new MemoryNodeModel(true,memory);
         relatedNode.setProperty("name", name);
         //This adds a label type to the memory query depending on the relation.
-        relatedNode.setLabel(Neo4jRelationships.determineNodeType(relationship));
+        relatedNode.setLabel(Neo4jRelationship.determineNodeType(relationship));
         try {
             ids = memory.getByQuery(relatedNode);
         } catch (InterruptedException | IOException e) {

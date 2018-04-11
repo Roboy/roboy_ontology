@@ -5,13 +5,21 @@ package roboy.ontology;
  * Respective questions should be added to the questions.json file
  * and used in the QuestionRandomizerState.
  */
-public enum Neo4jProperties {
+public enum Neo4jProperty {
+    abilities("abilities"),
+    age("age"),
+    alias("alias"),
+    birthdate("birthdate"),
+    color("color"),
+    full_name("full_name"),
     name("name"),
-    sex("sex");
+    sex("sex"),
+    skills("skills"),
+    last_name("last_name");
 
     public String type;
 
-    Neo4jProperties(String type) {
+    Neo4jProperty(String type) {
         this.type=type;
     }
 }
