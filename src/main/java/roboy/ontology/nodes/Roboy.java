@@ -1,7 +1,9 @@
 package roboy.ontology.nodes;
 
 import com.google.gson.Gson;
+import roboy.ontology.Neo4jLabel;
 import roboy.ontology.Neo4jMemoryInterface;
+import roboy.ontology.Neo4jProperty;
 import roboy.ontology.Neo4jRelationship;
 
 import java.io.IOException;
@@ -13,12 +15,22 @@ import java.util.HashMap;
  * and retrieve information about Roboy.
  */
 public class Roboy extends MemoryNodeModel{
+    private ArrayList<Neo4jRelationship> roboyLegalRelationships = new ArrayList<>();
+    private ArrayList<Neo4jRelationship> roboyIllegalRelationships = new ArrayList<>();
+    private ArrayList<Neo4jProperty> roboyLegalProperties = new ArrayList<>();
+    private ArrayList<Neo4jProperty> roboyIllegalProperties = new ArrayList<>();
 
     /**
      * Initializer for the Roboy node
      */
     public Roboy(Neo4jMemoryInterface memory) {
         super(true, memory);
+        this.label = Neo4jLabel.Robot.type;
+        this.labels.add(this.label);
+        this.Neo4jLegalRelationships = roboyLegalRelationships;
+        this.Neo4jIllegalRelationships = roboyIllegalRelationships;
+        this.Neo4jLegalProperties = roboyLegalProperties;
+        this.Neo4jIllegalProperties = roboyIllegalProperties;
         this.InitializeRoboy();
     }
 
@@ -32,87 +44,25 @@ public class Roboy extends MemoryNodeModel{
     // TODO consider a fallback for the amnesia mode
     private void InitializeRoboy() {
         setProperty("name", "roboy");
-        setLabel("Robot");
-
-        //
-            ArrayList<Integer> ids = new ArrayList<>();
-            try {
-                ids = memory.getByQuery(this);
-            } catch (InterruptedException | IOException e) {
-                logger.error("Cannot retrieve or find Roboy in the Memory. Go the amnesia mode");
-                logger.error(e.getMessage());
-            }
-            // Pick first if matches found.
-            if (ids != null && !ids.isEmpty()) {
-                try {
-                    MemoryNodeModel node = fromJSON(memory.getById(ids.get(0)), new Gson());
-                    setId(node.getId());
-                    setRelationships(node.getRelationships() != null ? node.getRelationships() : new HashMap<>());
-                    setProperties(node.getProperties() != null ? node.getProperties() : new HashMap<>());
-                } catch (InterruptedException | IOException e) {
-                    logger.error("Unexpected memory error: provided ID not found upon querying. Go the amnesia mode");
-                    logger.error(e.getMessage());
-                }
-            }
-        }
-
-
-    /**
-     * Method to obtain the name of the Roboy node
-     * @return String name - text containing the name as in the Memory
-     */
-    public String getName() {
-        return (String) getProperty("name");
-    }
-
-    /**
-     * Method to obtain the specific type relationships of the Roboy node
-     * @return ArrayList<Integer> ids - list containing integer IDs of the nodes
-     * related to the Roboy by specific relationship type as in the Memory
-     */
-    public ArrayList<Integer> getRelationships(Neo4jRelationship type) {
-        return getRelationship(type.type);
-    }
-
-    /**
-     * Adds a new relation to the Roboy node, updating memory.
-     */
-    public void addInformation(String relationship, String name) {
 
         ArrayList<Integer> ids = new ArrayList<>();
-        // First check if node with given name exists by a matching query.
-        MemoryNodeModel relatedNode = new MemoryNodeModel(true,memory);
-        relatedNode.setProperty("name", name);
-        //This adds a label type to the memory query depending on the relation.
-        relatedNode.setLabel(Neo4jRelationship.determineNodeType(relationship));
         try {
-            ids = memory.getByQuery(relatedNode);
+            ids = memory.getByQuery(this);
         } catch (InterruptedException | IOException e) {
-            logger.error("Exception while querying memory by template.");
-            logger.error(e.getMessage());
+            LOGGER.error("Cannot retrieve or find Roboy in the Memory. Go the amnesia mode");
+            LOGGER.error(e.getMessage());
         }
-        // Pick first from list if multiple matches found.
-        if(ids != null && !ids.isEmpty()) {
-            setRelationship(relationship, ids.get(0));
-        }
-        // Create new node if match is not found.
-        else {
+        // Pick first if matches found.
+        if (ids != null && !ids.isEmpty()) {
             try {
-                int id = memory.create(relatedNode);
-                if(id != 0) { // 0 is default value, returned if Memory response was FAIL.
-                    setRelationship(relationship, id);
-                }
+                MemoryNodeModel node = fromJSON(memory.getById(ids.get(0)), new Gson());
+                setId(node.getId());
+                setRelationships(node.getRelationships() != null ? node.getRelationships() : new HashMap<>());
+                setProperties(node.getProperties() != null ? node.getProperties() : new HashMap<>());
             } catch (InterruptedException | IOException e) {
-                logger.error("Unexpected memory error: creating node for new relation failed.");
-                logger.error(e.getMessage());
+                LOGGER.error("Unexpected memory error: provided ID not found upon querying. Go the amnesia mode");
+                LOGGER.error(e.getMessage());
             }
-        }
-        //Update the Roboy node in memory.
-        try{
-            memory.save(this);
-        } catch (InterruptedException | IOException e) {
-            logger.error("Unexpected memory error: updating person information failed.");
-            logger.error(e.getMessage());
         }
     }
 }
