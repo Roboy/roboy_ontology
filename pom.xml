@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>roboy-ontology</groupId>
     <artifactId>roboy-ontology</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <packaging>jar</packaging>
     <organization>
         <name>Roboy</name>
@@ -173,6 +173,12 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.0</version>
         </dependency>
     </dependencies>
 </project>
