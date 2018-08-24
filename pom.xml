@@ -12,6 +12,7 @@
     </organization>
 
     <name>Roboy Ontology Module</name>
+    <url>https://github.com/Roboy/roboy_ontology</url>
 
     <build>
         <plugins>

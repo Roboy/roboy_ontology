@@ -1,13 +1,14 @@
 package org.roboy.ontology;
 
+import org.apache.logging.log4j.LogManager;
+
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * This class represents a full node similarly to its representation in Ontology.
  */
 public class NodeModel {
-    final private static Logger logger = Logger.getLogger(NodeModel.class.toString());
+    private final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
     //Unique node IDs assigned by the memory.
     private int id = 0;
     //"Person" etc.
