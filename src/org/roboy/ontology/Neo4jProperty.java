@@ -22,7 +22,8 @@ public enum Neo4jProperty {
     telegram_id("telegram_id"),
     slack_id("slack_id"),
     whatsapp_id("whatsapp_id"),
-    line_id("line_id");
+    line_id("line_id"),
+    color("color");
 
     public String type;
 
