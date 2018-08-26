@@ -8,26 +8,21 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import static org.roboy.ontology.Neo4jLabel.*;
-import static org.roboy.ontology.Neo4jRelationship.*;
 import static org.roboy.ontology.Neo4jProperty.*;
+import static org.roboy.ontology.Neo4jRelationship.*;
 
-public class InterlocutorConstraints {
+public class RoboyConstraints {
     public static final HashSet<Neo4jLabel> legalLabels = new HashSet<>(Arrays.asList(
-            Person,
-            TelegramPerson,
-            FacebookPerson,
-            SlackPerson));
+            Robot));
     public static final HashSet<Neo4jRelationship> legalRelationships = new HashSet<> (Arrays.asList(
             FROM,
             HAS_HOBBY,
             LIVE_IN,
-            STUDY_AT,
-            OCCUPIED_AS,
-            WORK_FOR,
             FRIEND_OF,
             MEMBER_OF,
             CHILD_OF,
-            SIBLING_OF));
+            SIBLING_OF,
+            KNOW));
     public static final HashSet<Neo4jProperty> legalPropeties = new HashSet<> (Arrays.asList(
             name,
             sex,
