@@ -1,14 +1,15 @@
 package org.roboy.ontology;
 
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
 /**
  * This class represents a full node similarly to its representation in Ontology.
  */
-public class NodeModel {
-    private final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
+public abstract class NodeModel {
+    private final Logger LOGGER = LogManager.getLogger();
     //Unique node IDs assigned by the memory.
     private int id = 0;
     //"Person" etc.
@@ -18,13 +19,12 @@ public class NodeModel {
     private Neo4jLabel label;
     //name, birthdate
     private HashMap<Neo4jProperty, Object> properties;
-    //Relation: <name as String, ArrayList of IDs (nodes related to this node over this relation)>
+    //Relation: <name as String, ArrayList of IDs (constraints related to this node over this relation)>
     private HashMap<Neo4jRelationship, ArrayList<Integer>> relationships;
 
-    protected List<Neo4jRelationship> Neo4jLegalRelationships;
-    protected List<Neo4jRelationship> Neo4jIllegalRelationships;
-    protected List<Neo4jProperty> Neo4jLegalProperties;
-    protected List<Neo4jProperty> Neo4jIllegalProperties;
+    protected HashSet<Neo4jLabel> Neo4jLegalLabels;
+    protected HashSet<Neo4jRelationship> Neo4jLegalRelationships;
+    protected HashSet<Neo4jProperty> Neo4jLegalProperties;
 
     public NodeModel() { }
 
@@ -190,6 +190,8 @@ public class NodeModel {
         return pureImpureValues;
     }
 
+    public abstract boolean isLegal();
+
     public void resetId() {
         id = 0;
     }
@@ -216,6 +218,30 @@ public class NodeModel {
         resetLabels();
         resetProperties();
         resetRelationships();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof NodeModel)) {
+            return false;
+        }
+
+        NodeModel nodeModel = (NodeModel) obj;
+        return getId() == nodeModel.getId() &&
+                Objects.equals(getLabels(), nodeModel.getLabels()) &&
+                getLabel() == nodeModel.getLabel() &&
+                Objects.equals(getProperties(), nodeModel.getProperties()) &&
+                Objects.equals(getRelationships(), nodeModel.getRelationships());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId(), getLabels(), getLabel(), getProperties(), getRelationships());
     }
 
     @Override
