@@ -14,6 +14,8 @@ public enum Neo4jLabel {
     TelegramPerson("TelegramPerson"),
     FacebookPerson("FacebookPerson"),
     SlackPerson("SlackPerson"),
+    WhatsAppPerson("WhatsAppPerson"),
+    LinePerson("LinePerson"),
     Robot("Robot"),
     Company("Company"),
     University("University"),

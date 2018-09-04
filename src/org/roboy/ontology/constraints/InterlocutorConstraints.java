@@ -16,7 +16,9 @@ public class InterlocutorConstraints {
             Person,
             TelegramPerson,
             FacebookPerson,
-            SlackPerson));
+            SlackPerson,
+            WhatsAppPerson,
+            LinePerson));
     public static final HashSet<Neo4jRelationship> legalRelationships = new HashSet<> (Arrays.asList(
             FROM,
             HAS_HOBBY,
@@ -28,7 +30,7 @@ public class InterlocutorConstraints {
             MEMBER_OF,
             CHILD_OF,
             SIBLING_OF));
-    public static final HashSet<Neo4jProperty> legalPropeties = new HashSet<> (Arrays.asList(
+    public static final HashSet<Neo4jProperty> legalProperties = new HashSet<> (Arrays.asList(
             name,
             sex,
             full_name,
@@ -37,5 +39,6 @@ public class InterlocutorConstraints {
             telegram_id,
             slack_id,
             whatsapp_id,
-            line_id));
+            line_id,
+            timestamp));
 }
