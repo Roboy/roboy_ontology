@@ -15,6 +15,7 @@ public class LocationContraints {
     public static final HashSet<Neo4jLabel> legalLabels = new HashSet<>(Arrays.asList(
             Location));
     public static final HashSet<Neo4jRelationship> legalRelationships = new HashSet<> (Arrays.asList(
+            EQUALS,
             IS_IN));
     public static final HashSet<Neo4jProperty> legalProperties = new HashSet<> (Arrays.asList(
             name,

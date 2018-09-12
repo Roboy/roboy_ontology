@@ -13,6 +13,7 @@ import static org.roboy.ontology.Neo4jLabel.*;
  * and used in the QuestionRandomizerState.
  */
 public enum Neo4jRelationship {
+    EQUALS("EQUALS"),
     FROM("FROM"),
     HAS_HOBBY("HAS_HOBBY"),
     LIVE_IN("LIVE_IN"),

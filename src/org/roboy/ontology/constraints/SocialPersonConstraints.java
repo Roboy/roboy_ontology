@@ -8,12 +8,18 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import static org.roboy.ontology.Neo4jLabel.*;
-import static org.roboy.ontology.Neo4jRelationship.*;
+import static org.roboy.ontology.Neo4jLabel.LinePerson;
+import static org.roboy.ontology.Neo4jLabel.WhatsAppPerson;
 import static org.roboy.ontology.Neo4jProperty.*;
+import static org.roboy.ontology.Neo4jRelationship.*;
 
-public class InterlocutorConstraints {
+public class SocialPersonConstraints {
     public static final HashSet<Neo4jLabel> legalLabels = new HashSet<>(Arrays.asList(
-            Person));
+            TelegramPerson,
+            FacebookPerson,
+            SlackPerson,
+            WhatsAppPerson,
+            LinePerson));
     public static final HashSet<Neo4jRelationship> legalRelationships = new HashSet<> (Arrays.asList(
             EQUALS,
             FROM,
@@ -31,5 +37,10 @@ public class InterlocutorConstraints {
             sex,
             full_name,
             birthdate,
+            facebook_id,
+            telegram_id,
+            slack_id,
+            whatsapp_id,
+            line_id,
             timestamp));
 }

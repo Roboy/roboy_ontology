@@ -15,6 +15,7 @@ public class OrganisationConstraints {
     public static final HashSet<Neo4jLabel> legalLabels = new HashSet<>(Arrays.asList(
             Organization));
     public static final HashSet<Neo4jRelationship> legalRelationships = new HashSet<> (Arrays.asList(
+            EQUALS,
             FROM,
             SUBSIDIARY_OF));
     public static final HashSet<Neo4jProperty> legalProperties = new HashSet<> (Arrays.asList(
