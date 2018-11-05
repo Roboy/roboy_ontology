@@ -27,6 +27,13 @@
             </plugin>
 
             <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+            </plugin>
+
+            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
@@ -40,13 +47,6 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>roboy.dialog.DialogSystem</mainClass>
-                        </manifest>
-                    </archive>
                 </configuration>
             </plugin>
 
@@ -84,6 +84,10 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <directory>${project.basedir}/target</directory>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <sourceDirectory>${project.basedir}/src</sourceDirectory>
     </build>
 
     <repositories>

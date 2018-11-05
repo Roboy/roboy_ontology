@@ -23,7 +23,7 @@ public class RoboyConstraints {
             CHILD_OF,
             SIBLING_OF,
             KNOW));
-    public static final HashSet<Neo4jProperty> legalPropeties = new HashSet<> (Arrays.asList(
+    public static final HashSet<Neo4jProperty> legalProperties = new HashSet<> (Arrays.asList(
             name,
             sex,
             full_name,
@@ -32,5 +32,6 @@ public class RoboyConstraints {
             telegram_id,
             slack_id,
             whatsapp_id,
-            line_id));
+            line_id,
+            timestamp));
 }

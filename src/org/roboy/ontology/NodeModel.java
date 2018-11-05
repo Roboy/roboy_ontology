@@ -60,30 +60,39 @@ public abstract class NodeModel {
         if(this.labels == null) {
             this.labels = new HashSet<>();
         }
-        labels.add(label);
+        if (label != null) {
+            labels.add(label);
+        }
     }
 
     public void setLabels(HashSet<Neo4jLabel> labels) {
         if(this.labels == null) {
             this.labels = new HashSet<>();
         }
-        this.labels.addAll(labels);
+        if (labels != null) {
+            this.labels.addAll(labels);
+        }
     }
 
     public HashMap<Neo4jProperty, Object> getProperties() {
-        return properties;
+        return (properties == null || properties.isEmpty() ? null : properties);
     }
 
     public Object getProperties(Neo4jProperty key) {
-        return (properties != null ? properties.get(key) : null);
+        if (key != null) {
+            return (properties == null || properties.isEmpty() ? null : properties.get(key));
+        }
+        return null;
     }
 
     public void setProperties(HashMap<Neo4jProperty, Object> properties) {
         if(this.properties == null) {
             this.properties = new HashMap<>();
         }
-        for (Neo4jProperty key : properties.keySet()) {
-            setProperties(key, properties.get(key));
+        if (properties != null) {
+            for (Neo4jProperty key : properties.keySet()) {
+                setProperties(key, properties.get(key));
+            }
         }
     }
 
@@ -91,23 +100,30 @@ public abstract class NodeModel {
         if(this.properties == null) {
             this.properties = new HashMap<>();
         }
-        properties.put(key, property);
+        if (key != null && property != null) {
+            properties.put(key, property);
+        }
     }
 
     public HashMap<Neo4jRelationship, ArrayList<Integer>> getRelationships() {
-        return relationships;
+        return (relationships == null || relationships.isEmpty() ? null : relationships);
     }
 
     public ArrayList<Integer> getRelationships(Neo4jRelationship key) {
-        return (relationships != null ? relationships.get(key) : null);
+        if (key != null) {
+            return (relationships == null || relationships.isEmpty() ? null : relationships.get(key));
+        }
+        return null;
     }
 
     public void setRelationships(HashMap<Neo4jRelationship, ArrayList<Integer>> relationships) {
         if(this.relationships == null) {
             this.relationships = new HashMap<>();
         }
-        for (Neo4jRelationship key : relationships.keySet()) {
-            setRelationships(key, relationships.get(key));
+        if (relationships != null) {
+            for (Neo4jRelationship key : relationships.keySet()) {
+                setRelationships(key, relationships.get(key));
+            }
         }
     }
 
@@ -115,10 +131,12 @@ public abstract class NodeModel {
         if(this.relationships == null) {
             this.relationships = new HashMap<>();
         }
-        if(relationships.containsKey(key)) {
-            relationships.get(key).addAll(ids);
-        } else {
-            relationships.put(key, ids);
+        if (key != null && ids != null) {
+            if (relationships.containsKey(key)) {
+                relationships.get(key).addAll(ids);
+            } else {
+                relationships.put(key, ids);
+            }
         }
     }
 
@@ -126,12 +144,14 @@ public abstract class NodeModel {
         if(this.relationships == null) {
             this.relationships = new HashMap<>();
         }
-        if(relationships.containsKey(key)) {
-            relationships.get(key).add(id);
-        } else {
-            ArrayList<Integer> idList = new ArrayList<>();
-            idList.add(id);
-            relationships.put(key, idList);
+        if (key != null && id != null) {
+            if (relationships.containsKey(key)) {
+                relationships.get(key).add(id);
+            } else {
+                ArrayList<Integer> idList = new ArrayList<>();
+                idList.add(id);
+                relationships.put(key, idList);
+            }
         }
     }
 
@@ -140,9 +160,11 @@ public abstract class NodeModel {
     }
 
     public void set(NodeModel node) {
-        setId(node.getId());
-        setRelationships(node.getRelationships() != null ? node.getRelationships() : new HashMap<>());
-        setProperties(node.getProperties() != null ? node.getProperties() : new HashMap<>());
+        if (node != null) {
+            setId(node.getId());
+            setRelationships(node.getRelationships() != null ? node.getRelationships() : new HashMap<>());
+            setProperties(node.getProperties() != null ? node.getProperties() : new HashMap<>());
+        }
     }
 
     public String getName() {
@@ -150,7 +172,9 @@ public abstract class NodeModel {
     }
 
     public void addName(String name) {
-        setProperties(Neo4jProperty.name, name);
+        if (name != null) {
+            setProperties(Neo4jProperty.name, name);
+        }
     }
 
     public enum RelationshipAvailability {
